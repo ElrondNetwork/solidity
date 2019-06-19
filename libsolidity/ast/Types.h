@@ -39,6 +39,8 @@
 #include <map>
 #include <set>
 
+#define ADDRESS_LENGTH_BITS 256
+
 namespace dev
 {
 namespace solidity
@@ -724,7 +726,7 @@ public:
 		solAssert(!isSuper(), "");
 		return encodingType()->calldataEncodedSize(_padded);
 	}
-	virtual bigint getFixedBitwidth() const override { return bigint(160); }
+	virtual bigint getFixedBitwidth() const override { return bigint(ADDRESS_LENGTH_BITS); }
 	virtual unsigned storageBytes() const override { solAssert(!isSuper(), ""); return 20; }
 	virtual bool canLiveOutsideStorage() const override { return !isSuper(); }
 	virtual unsigned sizeOnStack() const override { return m_super ? 0 : 1; }
@@ -737,7 +739,7 @@ public:
 	{
 		if (isSuper())
 			return TypePointer{};
-		return std::make_shared<IntegerType>(160, IntegerType::Modifier::Address);
+		return std::make_shared<IntegerType>(ADDRESS_LENGTH_BITS, IntegerType::Modifier::Address);
 	}
 	virtual TypePointer interfaceType(bool _inLibrary) const override
 	{

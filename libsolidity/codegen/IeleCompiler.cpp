@@ -18,7 +18,7 @@ using namespace dev::solidity;
 auto UInt = std::make_shared<IntegerType>();
 auto UInt16 = std::make_shared<IntegerType>(16);
 auto SInt = std::make_shared<IntegerType>(IntegerType::Modifier::Signed);
-auto Address = std::make_shared<IntegerType>(160, IntegerType::Modifier::Address);
+auto Address = std::make_shared<IntegerType>(ADDRESS_LENGTH_BITS, IntegerType::Modifier::Address);
 
 IeleRValue *IeleCompiler::Value::rval(iele::IeleBlock *Block) {
   return isLValue ? LValue->read(Block) : RValue;
@@ -4886,7 +4886,7 @@ void IeleCompiler::appendRangeCheck(IeleRValue *Value, const Type &Type) {
   }
   case Type::Category::Contract: {
     min = 0;
-    max = (bigint(1) << 160) - 1;
+    max = (bigint(1) << ADDRESS_LENGTH_BITS) - 1;
     break;
   }
   case Type::Category::Enum: {
@@ -4911,7 +4911,7 @@ void IeleCompiler::appendRangeCheck(IeleRValue *Value, const Type &Type) {
     switch (kind) {
     case FunctionType::Kind::External:
     case FunctionType::Kind::CallCode:
-      max = (bigint(1) << 160) - 1;
+      max = (bigint(1) << ADDRESS_LENGTH_BITS) - 1;
       appendRangeCheck(Value->getValues()[0], &min, &max);
       max = (bigint(1) << 16) - 1;
       appendRangeCheck(Value->getValues()[1], &min, &max);

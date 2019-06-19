@@ -238,7 +238,7 @@ string ABIFunctions::cleanupFunction(Type const& _type, bool _revertOnFailure)
 			break;
 		}
 		case Type::Category::Contract:
-			templ("body", "cleaned := " + cleanupFunction(IntegerType(160, IntegerType::Modifier::Address)) + "(value)");
+			templ("body", "cleaned := " + cleanupFunction(IntegerType(ADDRESS_LENGTH_BITS, IntegerType::Modifier::Address)) + "(value)");
 			break;
 		case Type::Category::Enum:
 		{
@@ -322,7 +322,7 @@ string ABIFunctions::conversionFunction(Type const& _from, Type const& _to)
 					toCategory == Type::Category::Integer ||
 					toCategory == Type::Category::Contract,
 				"");
-				IntegerType const addressType(160, IntegerType::Modifier::Address);
+				IntegerType const addressType(ADDRESS_LENGTH_BITS, IntegerType::Modifier::Address);
 				IntegerType const& to =
 					toCategory == Type::Category::Integer ?
 					dynamic_cast<IntegerType const&>(_to) :
